@@ -1,5 +1,6 @@
 package com.home.weatherapp.data.repository
 
+import android.util.Log
 import com.home.weatherapp.data.local.WeatherDatabase
 import com.home.weatherapp.data.mapper.toWeatherData
 import com.home.weatherapp.data.mapper.toWeatherDataEntity
@@ -26,8 +27,9 @@ class WeatherRepositoryImpl @Inject constructor(
         fetchFromRemote: Boolean,
         query: String
     ): Flow<Resource<List<WeatherData>>> {
+
         return flow {
-            emit(Resource.Loading(true))
+//            emit(Resource.Loading(true))
             val localWeather = dao.searchWeatherInLocation(query)
             emit(Resource.Success(
                 data = localWeather.map {
@@ -42,7 +44,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 return@flow
             }
             val remoteWeather = try {
-
                 val response = api.getWeatherData(query)
                 listOf(response.toWeatherDataEntity().toWeatherData())
 
@@ -65,7 +66,7 @@ class WeatherRepositoryImpl @Inject constructor(
                         .searchWeatherInLocation("")
                         .map { it.toWeatherData() }
                 ))
-                emit(Resource.Loading(false))
+//                emit(Resource.Loading(false))
             }
         }
     }

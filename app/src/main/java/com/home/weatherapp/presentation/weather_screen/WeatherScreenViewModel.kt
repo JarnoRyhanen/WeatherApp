@@ -1,5 +1,6 @@
 package com.home.weatherapp.presentation.weather_screen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,6 +38,10 @@ class WeatherScreenViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    init {
+        getWeatherData(fetchFromRemote = true)
     }
 
     private fun getWeatherData(

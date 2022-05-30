@@ -1,19 +1,15 @@
 package com.home.weatherapp.data.local
 
 import androidx.room.Entity
-import com.home.weatherapp.data.remote.dto.CurrentConditionsDto
-import com.home.weatherapp.data.remote.dto.DayDto
-import com.home.weatherapp.domain.model.WeatherData
+import androidx.room.PrimaryKey
 
 @Entity
 data class WeatherDataEntity(
-    val address: String,
-    val currentConditions: CurrentConditionsEntity,
-    val days: List<DayEntity>,
+    @PrimaryKey val address: String,
     val description: String,
     val latitude: Double,
     val longitude: Double,
     val resolvedAddress: String,
     val timezone: String,
-    val tzoffset: Double
+    val timezoneOffset: Double
 )
