@@ -1,6 +1,7 @@
 package com.home.weatherapp.data.remote
 
 import com.home.weatherapp.BuildConfig
+import com.home.weatherapp.data.remote.dto.WeatherDto
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,6 +17,6 @@ interface WeatherApi {
     @GET("{location}?key=$API_KEY&options=beta&contentType=json&unitGroup=metric")
     suspend fun getWeatherData(
         @Path("location") location: String
-    ) : ResponseBody
+    ) : WeatherDto
 
 }

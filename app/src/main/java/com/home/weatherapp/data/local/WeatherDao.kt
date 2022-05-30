@@ -19,6 +19,6 @@ interface WeatherDao {
         WHERE LOWER(address) LIKE '%' || LOWER(:query) || '%'
     """
     )
-    suspend fun searchWeatherInLocation(query: String): WeatherDataEntity
+    suspend fun searchWeatherInLocation(query: String): List<WeatherDataEntity>
 
 }

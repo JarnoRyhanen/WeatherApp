@@ -3,6 +3,7 @@ package com.home.weatherapp.data.local
 import androidx.room.Entity
 import com.home.weatherapp.data.remote.dto.CurrentConditionsDto
 import com.home.weatherapp.data.remote.dto.DayDto
+import com.home.weatherapp.domain.model.WeatherData
 
 @Entity
 data class WeatherDataEntity(
