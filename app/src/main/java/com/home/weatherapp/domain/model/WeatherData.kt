@@ -1,5 +1,6 @@
 package com.home.weatherapp.domain.model
 
+import com.home.weatherapp.data.local.CurrentConditionsEntity
 import com.home.weatherapp.data.remote.dto.CurrentConditionsDto
 import com.home.weatherapp.data.remote.dto.DayDto
 

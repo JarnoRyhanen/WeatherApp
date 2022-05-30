@@ -1,6 +1,8 @@
 package com.home.weatherapp.data.local
 
 import androidx.room.Entity
+import com.home.weatherapp.data.remote.dto.CurrentConditionsDto
+import com.home.weatherapp.data.remote.dto.DayDto
 
 @Entity
 data class WeatherDataEntity(
