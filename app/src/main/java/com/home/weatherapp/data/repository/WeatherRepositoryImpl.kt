@@ -3,9 +3,7 @@ package com.home.weatherapp.data.repository
 import android.util.Log
 import com.google.gson.JsonSyntaxException
 import com.home.weatherapp.data.local.WeatherDatabase
-import com.home.weatherapp.data.mapper.toCurrentConditionsEntity
-import com.home.weatherapp.data.mapper.toWeatherData
-import com.home.weatherapp.data.mapper.toWeatherDataEntity
+import com.home.weatherapp.data.mapper.*
 import com.home.weatherapp.data.remote.WeatherApi
 import com.home.weatherapp.domain.model.WeatherData
 import com.home.weatherapp.domain.repository.WeatherRepository
@@ -16,6 +14,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.log
 
 private const val TAG = "WeatherRepositoryImpl"
 @Singleton
@@ -30,28 +29,24 @@ class WeatherRepositoryImpl @Inject constructor(
         fetchFromRemote: Boolean,
         query: String
     ): Flow<Resource<List<WeatherData>>> {
-
         return flow {
-//            emit(Resource.Loading(true))
+            emit(Resource.Loading(true))
             val localWeather = dao.searchWeatherInLocation(query)
             emit(Resource.Success(
                 data = localWeather.map {
-                    it.toWeatherData()
+                    it.toWeatherData(query)
                 }
             ))
-
             val isDbEmpty = localWeather.isEmpty() && query.isBlank()
             val shouldLoadFromCache = !isDbEmpty && !fetchFromRemote
             if (shouldLoadFromCache) {
                 emit(Resource.Loading(false))
                 return@flow
             }
-
             val remoteWeather = try {
                 val response = api.getWeatherData(query)
-                listOf(response.toWeatherDataEntity().toWeatherData())
-            }
-            catch (e: IOException) {
+                listOf(response.toWeatherDataEntity(query))
+            } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("No internet connection"))
                 null
@@ -59,37 +54,23 @@ class WeatherRepositoryImpl @Inject constructor(
                 e.printStackTrace()
                 emit(Resource.Error("Http error"))
                 null
-            }
-
-            val remoteCurrentConditions = try {
-                val response = api.getWeatherData(query)
-                response.currentConditions.toCurrentConditionsEntity(query)
-            }catch (e: IOException) {
+            } catch (e: JsonSyntaxException) {
                 e.printStackTrace()
-                emit(Resource.Error("No internet connection"))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(Resource.Error("Http error"))
+                emit(Resource.Error("Json syntax error"))
                 null
             }
-
 
             remoteWeather?.let { weather ->
                 dao.clearWeatherData()
                 dao.insertWeatherData(
-                    weather.first().toWeatherDataEntity()
+                    weather.first()
                 )
-                remoteCurrentConditions?.let { currentCondition ->
-                    dao.clearCurrentConditions()
-                    dao.insertCurrentConditions(currentCondition)
-                }
                 emit(Resource.Success(
                     data = dao
                         .searchWeatherInLocation("")
-                        .map { it.toWeatherData() }
+                        .map { it.toWeatherData(query) }
                 ))
-//                emit(Resource.Loading(false))
+                emit(Resource.Loading(false))
             }
         }
     }

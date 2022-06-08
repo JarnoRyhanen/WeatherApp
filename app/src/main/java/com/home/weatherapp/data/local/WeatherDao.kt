@@ -1,6 +1,7 @@
 package com.home.weatherapp.data.local
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
@@ -10,24 +11,15 @@ interface WeatherDao {
         weatherDataEntity: WeatherDataEntity
     )
 
-    @Query("DELETE FROM weatherdataentity")
+    @Query("DELETE FROM weather_data_entity")
     suspend fun clearWeatherData()
 
     @Query(
         """
         SELECT * 
-        FROM weatherdataentity 
-        INNER JOIN currentconditionsentity on location = address
+        FROM weather_data_entity
         WHERE LOWER(address) LIKE '%' || LOWER(:query) || '%'
     """
     )
     suspend fun searchWeatherInLocation(query: String): List<WeatherDataEntity>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCurrentConditions(
-        currentConditionsEntity: CurrentConditionsEntity
-    )
-    @Query("DELETE FROM currentconditionsentity")
-    suspend fun clearCurrentConditions()
-
 }

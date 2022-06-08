@@ -13,6 +13,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
+
+private const val TAG = "WeatherScreenViewModel"
 
 @HiltViewModel
 class WeatherScreenViewModel @Inject constructor(
@@ -60,7 +63,7 @@ class WeatherScreenViewModel @Inject constructor(
                                 )
                             }
                         }
-                        is Resource.Error -> Unit
+                        is Resource.Error -> {}
                         is Resource.Loading -> {
                             state = state.copy(isLoading = result.isLoading)
                         }

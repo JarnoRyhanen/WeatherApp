@@ -1,9 +1,10 @@
 package com.home.weatherapp.data.local
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "weather_data_entity")
 data class WeatherDataEntity(
     @PrimaryKey val address: String,
     val description: String,
@@ -11,12 +12,12 @@ data class WeatherDataEntity(
     val longitude: Double,
     val resolvedAddress: String,
     val timezone: String,
-    val timezoneOffset: Double
+    val timezoneOffset: Double,
+    val days: List<DaysEntity>,
+    val currentConditions: CurrentConditionsEntity
 )
 
-@Entity
 data class CurrentConditionsEntity(
-    @PrimaryKey val location: String,
     val dateTime: String,
     val dateTimeEpoch: Long,
     val temperature: Double,
@@ -25,6 +26,25 @@ data class CurrentConditionsEntity(
     val conditions: String,
     val icon: String,
     val sunrise: String,
-    val sunset: String,
+    val sunset: String
 )
 
+data class DaysEntity(
+    val locationDay: String,
+    val datetime: String,
+    val datetimeEpoch: Long,
+    val temp: Double,
+    val feelslike: Double,
+    val windspeed: Double,
+    val conditions: String,
+    val icon: String,
+    val hours: List<HourEntity>
+)
+
+data class HourEntity(
+    val locationHour: String,
+    val datetime: String,
+    val datetimeEpoch: Long,
+    val temp: Double,
+    val icon: String
+)
