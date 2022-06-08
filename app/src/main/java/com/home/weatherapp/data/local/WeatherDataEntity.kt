@@ -13,3 +13,18 @@ data class WeatherDataEntity(
     val timezone: String,
     val timezoneOffset: Double
 )
+
+@Entity
+data class CurrentConditionsEntity(
+    @PrimaryKey val location: String,
+    val dateTime: String,
+    val dateTimeEpoch: Long,
+    val temperature: Double,
+    val feelslike: Double,
+    val windspeed: Double,
+    val conditions: String,
+    val icon: String,
+    val sunrise: String,
+    val sunset: String,
+)
+

@@ -5,12 +5,12 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [
-        WeatherDataEntity::class
-//        CurrentConditionsEntity::class
+        WeatherDataEntity::class,
+        CurrentConditionsEntity::class
 //        HourEntity::class,
 //        DayEntity::class
                ],
-    version = 3
+    version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
     abstract val dao: WeatherDao

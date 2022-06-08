@@ -13,12 +13,21 @@ interface WeatherDao {
     @Query("DELETE FROM weatherdataentity")
     suspend fun clearWeatherData()
 
-    @Query("""
+    @Query(
+        """
         SELECT * 
-        FROM weatherdataentity
+        FROM weatherdataentity 
+        INNER JOIN currentconditionsentity on location = address
         WHERE LOWER(address) LIKE '%' || LOWER(:query) || '%'
     """
     )
     suspend fun searchWeatherInLocation(query: String): List<WeatherDataEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCurrentConditions(
+        currentConditionsEntity: CurrentConditionsEntity
+    )
+    @Query("DELETE FROM currentconditionsentity")
+    suspend fun clearCurrentConditions()
 
 }

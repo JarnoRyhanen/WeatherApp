@@ -8,5 +8,21 @@ data class WeatherDto(
     val queryCost: Int,
     val resolvedAddress: String,
     val timezone: String,
-    val tzoffset: Double
+    val tzoffset: Double,
+    val currentConditions: CurrentConditionsDto
 )
+
+data class CurrentConditionsDto(
+    val datetime: String,
+    val datetimeEpoch: Long,
+    val temp: Double,
+    val feelslike: Double,
+    val windspeed: Double,
+    val conditions: String,
+    val icon: String,
+    val sunrise: String,
+    val sunset: String,
+)
+
+
+
