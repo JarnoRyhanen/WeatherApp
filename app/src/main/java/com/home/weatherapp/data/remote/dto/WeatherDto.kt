@@ -21,6 +21,8 @@ data class CurrentConditionsDto(
     val windspeed: Double,
     val conditions: String,
     val icon: String,
+    val pressure: Double,
+    val precipprob: String,
     val sunrise: String,
     val sunset: String
 )

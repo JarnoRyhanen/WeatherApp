@@ -11,7 +11,7 @@ import com.home.weatherapp.data.converters.HourTypeConverter
     entities = [
         WeatherDataEntity::class
     ],
-    version = 12
+    version = 2
 )
 @TypeConverters(
     HourTypeConverter::class,

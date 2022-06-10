@@ -66,6 +66,8 @@ fun CurrentConditionsDto.toCurrentConditionsEntity(query: String) : CurrentCondi
         icon = icon,
         sunset = sunset,
         sunrise = sunrise,
+        precipProb = precipprob,
+        pressure = pressure
     )
 }
 
@@ -80,7 +82,9 @@ fun CurrentConditionsEntity.toCurrentConditions(location: String) : CurrentCondi
         icon = icon,
         sunset = sunset,
         sunrise = sunrise,
-        location = location
+        location = location,
+        precipProb = precipProb,
+        pressure = pressure
     )
 }
 
@@ -95,6 +99,8 @@ fun CurrentConditions.toCurrentConditionsEntity(location: String) : CurrentCondi
         icon = icon,
         sunset = sunset,
         sunrise = sunrise,
+        precipProb = precipProb,
+        pressure = pressure
     )
 }
 

@@ -19,6 +19,8 @@ data class CurrentConditions(
     val feelslike: Double,
     val windspeed: Double,
     val conditions: String,
+    val precipProb: String?,
+    val pressure: Double,
     val icon: String,
     val sunrise: String,
     val sunset: String,

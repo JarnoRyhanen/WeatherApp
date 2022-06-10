@@ -63,7 +63,7 @@ class WeatherScreenViewModel @Inject constructor(
                                 )
                             }
                         }
-                        is Resource.Error -> {}
+                        is Resource.Error -> Unit
                         is Resource.Loading -> {
                             state = state.copy(isLoading = result.isLoading)
                         }

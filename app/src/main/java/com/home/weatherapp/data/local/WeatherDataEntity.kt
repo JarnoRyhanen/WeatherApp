@@ -25,6 +25,8 @@ data class CurrentConditionsEntity(
     val windspeed: Double,
     val conditions: String,
     val icon: String,
+    val precipProb: String?,
+    val pressure: Double,
     val sunrise: String,
     val sunset: String
 )
