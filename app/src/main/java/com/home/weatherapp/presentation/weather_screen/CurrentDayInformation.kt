@@ -1,5 +1,6 @@
 package com.home.weatherapp.presentation.weather_screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -8,24 +9,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.home.weatherapp.R
+import com.home.weatherapp.util.formatters.formatEpochTimesToTime
 import com.home.weatherapp.ui.theme.IconColor
 import com.home.weatherapp.ui.theme.LighterBlue
 import com.home.weatherapp.ui.theme.SpecificTextColor
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
+import com.home.weatherapp.util.getIcon
 import kotlin.math.roundToInt
 
 @Composable
@@ -59,7 +60,9 @@ fun CurrentDayInfo(
             fontFamily = FontFamily.Serif
         )
         Text(
-            text = currentConditions.icon.replaceFirstChar { it.uppercase() },
+            text = currentConditions.icon
+                .replaceFirstChar { it.uppercase() }
+                .replace("-", " "),
             modifier = Modifier
                 .clip(RoundedCornerShape(100.dp))
                 .background(color = LighterBlue)
@@ -142,6 +145,24 @@ fun CurrentDayInfo(
             }
         }
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            Arrangement.SpaceAround,
+            Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.wrapContentSize()) {
+                Text(text = "Sunrise")
+                Text(text = formatEpochTimesToTime(currentConditions.sunrise.toLong()))
+            }
+            Column(modifier = Modifier.wrapContentSize()) {
+                Text(text = "Sunset")
+                Text(text = formatEpochTimesToTime(currentConditions.sunset.toLong()))
+            }
+
+        }
+
+//        SunriseSunsetChart(state)
+
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Today",
@@ -160,64 +181,6 @@ fun CurrentDayInfo(
 
                 val hour = state.weatherData.first().days.first().hour[it]
 
-                val icon: Int = when (hour.icon) {
-                    "snow" -> {
-                        R.drawable.snow
-                    }
-                    "snow-showers-day" -> {
-                        R.drawable.snowshowersday
-                    }
-                    "snow-showers-night" -> {
-                        R.drawable.snowshowersnight
-                    }
-                    "thunder-rain" -> {
-                        R.drawable.thunderrain
-                    }
-                    "thunder-showers-day" -> {
-                        R.drawable.thundershowersday
-                    }
-                    "thunder-showers-night" -> {
-                        R.drawable.thundershowersnight
-                    }
-                    "rain" -> {
-                        R.drawable.rain
-                    }
-                    "showers-day" -> {
-                        R.drawable.showersday
-                    }
-                    "showers-night" -> {
-                        R.drawable.showersnight
-                    }
-                    "fog" -> {
-                        R.drawable.fog
-                    }
-                    "wind" -> {
-                        R.drawable.wind
-                    }
-                    "cloudy" -> {
-                        R.drawable.cloudy
-                    }
-                    "partly-cloudy-day" -> {
-                        R.drawable.partlycloudyday
-                    }
-                    "partly-cloudy-night" -> {
-                        R.drawable.partlycloudynight
-                    }
-                    "clear-day" -> {
-                        R.drawable.clearday
-                    }
-                    "clear-night" -> {
-                        R.drawable.clearnight
-                    }
-                    else -> {
-                        -1
-                    }
-                }
-
-                val dt = hour.datetimeEpoch * 1000
-                val sdf = SimpleDateFormat("h:mm aa", Locale.US)
-                val time1 = sdf.format(dt)
-
                 Column(
                     modifier = Modifier
                         .wrapContentSize()
@@ -225,9 +188,9 @@ fun CurrentDayInfo(
                     Arrangement.SpaceEvenly,
                     Alignment.CenterHorizontally
                 ) {
-                    Text(text = time1)
-                    Icon(
-                        painter = painterResource(id = icon),
+                    Text(text = formatEpochTimesToTime(hour.datetimeEpoch))
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = getIcon(hour.icon)),
                         contentDescription = null,
                         modifier = Modifier.size(40.dp)
                     )

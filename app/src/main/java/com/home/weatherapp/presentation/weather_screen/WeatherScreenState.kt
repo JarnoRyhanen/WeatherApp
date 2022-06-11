@@ -6,5 +6,5 @@ data class WeatherScreenState(
     val weatherData: List<WeatherData> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val searchQuery: String = "helsinki"
+    val searchQuery: String = "Helsinki"
 )

@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_clear_night.xml" value="0.1775" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_partly_cloudy_day.xml" value="0.1775" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_partly_cloudy_night.xml" value="0.1775" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_water_drop.xml" value="0.171" />
       </map>
     </option>

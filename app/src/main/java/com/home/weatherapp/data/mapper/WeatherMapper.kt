@@ -64,8 +64,8 @@ fun CurrentConditionsDto.toCurrentConditionsEntity(query: String) : CurrentCondi
         windspeed = windspeed,
         conditions = conditions,
         icon = icon,
-        sunset = sunset,
-        sunrise = sunrise,
+        sunset = sunsetEpoch,
+        sunrise = sunriseEpoch,
         precipProb = precipprob,
         pressure = pressure
     )

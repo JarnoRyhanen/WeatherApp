@@ -23,8 +23,8 @@ data class CurrentConditionsDto(
     val icon: String,
     val pressure: Double,
     val precipprob: String,
-    val sunrise: String,
-    val sunset: String
+    val sunriseEpoch: String,
+    val sunsetEpoch: String
 )
 
 data class DaysDto(

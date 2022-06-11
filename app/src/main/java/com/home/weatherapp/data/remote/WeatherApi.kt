@@ -14,7 +14,7 @@ interface WeatherApi {
         const val API_KEY = BuildConfig.API_KEY
     }
 
-    @GET("{location}?key=$API_KEY&options=beta&contentType=json&unitGroup=metric")
+    @GET("{location}?key=$API_KEY&options=beta&contentType=json&unitGroup=metric&iconSet=icons2")
     suspend fun getWeatherData(
         @Path("location") location: String
     ) : WeatherDto

@@ -1,23 +1,24 @@
 package com.home.weatherapp.presentation.weather_screen
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.home.weatherapp.R
 import com.home.weatherapp.ui.theme.SpecificTextColor
+import com.home.weatherapp.util.formatters.formatDateToDay
+import com.home.weatherapp.util.getIcon
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,70 +37,11 @@ fun NextDaysInfo(
     ) {
         items(state.weatherData.first().days.size) {
 
-//            if(it == 0){
-//                return@items
-//            }
-
-            val day = state.weatherData.first().days[it]
-            val icon: Int = when (day.icon) {
-                "snow" -> {
-                    R.drawable.snow
-                }
-                "snow-showers-day" -> {
-                    R.drawable.snowshowersday
-                }
-                "snow-showers-night" -> {
-                    R.drawable.snowshowersnight
-                }
-                "thunder-rain" -> {
-                    R.drawable.thunderrain
-                }
-                "thunder-showers-day" -> {
-                    R.drawable.thundershowersday
-                }
-                "thunder-showers-night" -> {
-                    R.drawable.thundershowersnight
-                }
-                "rain" -> {
-                    R.drawable.rain
-                }
-                "showers-day" -> {
-                    R.drawable.showersday
-                }
-                "showers-night" -> {
-                    R.drawable.showersnight
-                }
-                "fog" -> {
-                    R.drawable.fog
-                }
-                "wind" -> {
-                    R.drawable.wind
-                }
-                "cloudy" -> {
-                    R.drawable.cloudy
-                }
-                "partly-cloudy-day" -> {
-                    R.drawable.partlycloudyday
-                }
-                "partly-cloudy-night" -> {
-                    R.drawable.partlycloudynight
-                }
-                "clear-day" -> {
-                    R.drawable.clearday
-                }
-                "clear-night" -> {
-                    R.drawable.clearnight
-                }
-                else -> {
-                    -1
-                }
+            if(it == 0){
+                return@items
             }
 
-
-            val inFormat = SimpleDateFormat("dd-MM-yyyy")
-            val date = inFormat.parse(day.datetime)
-            val outFormat = SimpleDateFormat("EEEE", Locale.US)
-            val goal = outFormat.format(date).replaceFirstChar { it.uppercase() }
+            val day = state.weatherData.first().days[it]
 
             Row(
                 modifier = Modifier
@@ -108,12 +50,12 @@ fun NextDaysInfo(
             ) {
 
                 Text(
-                    text = goal,
+                    text = formatDateToDay(day.datetime),
                     modifier = Modifier.align(CenterVertically)
                 )
-                Icon(
-                    painterResource(
-                        id = icon,
+                Image(
+                    imageVector = ImageVector.vectorResource(
+                        id = getIcon(day.icon),
                     ),
                     contentDescription = null,
                     modifier = Modifier
