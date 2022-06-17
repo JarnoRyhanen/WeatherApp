@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -24,8 +26,13 @@ import androidx.navigation.compose.rememberNavController
 import com.home.weatherapp.presentation.map_screen.MapScreen
 import com.home.weatherapp.presentation.weather_screen.WeatherScreen
 import com.home.weatherapp.presentation.weather_screen.WeatherScreenViewModel
-import com.home.weatherapp.ui.theme.*
+import com.home.weatherapp.ui.theme.AquaBlue
+import com.home.weatherapp.ui.theme.ButtonBlue
+import com.home.weatherapp.ui.theme.DarkBlue
+import com.home.weatherapp.ui.theme.WeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -37,10 +44,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherAppTheme {
                 val navController = rememberNavController()
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
                     Scaffold(
                         bottomBar = {
                             BottomNavigationBar(
@@ -61,11 +64,11 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate(it.route)
                                 }
                             )
+                        }, content = {
+                            Navigation(navHostController = navController)
+                            it
                         }
-                    ) {
-                        Navigation(navHostController = navController)
-                    }
-                }
+                    )
             }
         }
     }

@@ -1,42 +1,51 @@
 package com.home.weatherapp.presentation.map_screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import android.util.Log
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 
+private const val TAG = "MapScreen"
 
 @Composable
 fun MapScreen(
     viewModel: MapsScreenViewModel = hiltViewModel()
 ) {
-
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Red)) {
-
+    val scaffoldState = rememberScaffoldState()
+    val uiSettings = remember {
+        MapUiSettings(zoomControlsEnabled = true)
     }
-    
-    
-//    val scaffoldState = rememberScaffoldState()
-//    val uiSettings = remember {
-//        MapUiSettings(zoomControlsEnabled = false)
-//    }
-//    Scaffold(
-//        scaffoldState = scaffoldState
-//    ) {
-//        GoogleMap(
-//            modifier = Modifier.fillMaxSize(),
-//            properties = viewModel.state.properties,
-//            uiSettings = uiSettings,
-//            onMapLongClick = {
-//
-//            }
-//        )
-//
-//    }
-//
+
+    Scaffold(
+        scaffoldState = scaffoldState,
+        content = {
+            it
+            GoogleMap(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 75.dp),
+                properties = viewModel.state.properties,
+                uiSettings = uiSettings,
+                onMapLongClick = {
+                    Log.d(TAG, "MapScreen: $it")
+                },
+                cameraPositionState = CameraPositionState(
+                    CameraPosition(
+                        LatLng(60.1712, 24.9327), 12f, 0f, 0f
+                    )
+                )
+            )
+        }
+    )
 }
