@@ -1,8 +1,11 @@
 package com.home.weatherapp
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,28 +38,41 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {}
+        activityResultLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+
         setContent {
             WeatherAppTheme {
                 val navController = rememberNavController()
-                    Scaffold(
-                        bottomBar = {
-                            BottomNavigationBar(
-                                items = listOf(
-                                    BottomMenuContent(
-                                        title = "Home",
-                                        route = "weatherScreen",
-                                        iconId = R.drawable.ic_baseline_home_24
-                                    ),
-                                    BottomMenuContent(
-                                        title = "Map",
-                                        route = "mapScreen",
-                                        iconId = R.drawable.ic_baseline_map_24
-                                    )
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(
+                            items = listOf(
+                                BottomMenuContent(
+                                    title = "Home",
+                                    route = "weatherScreen",
+                                    iconId = R.drawable.ic_baseline_home_24
                                 ),
-                                navController = navController,
-                                onItemClick = {
+                                BottomMenuContent(
+                                    title = "Map",
+                                    route = "mapScreen",
+                                    iconId = R.drawable.ic_baseline_map_24
+                                )
+                            ),
+                            navController = navController,
+                            onItemClick = {
                                     navController.navigate(it.route)
                                 }
                             )

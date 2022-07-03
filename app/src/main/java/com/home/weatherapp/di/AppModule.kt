@@ -2,6 +2,8 @@ package com.home.weatherapp.di
 
 import android.app.Application
 import androidx.room.Room
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.home.weatherapp.data.local.WeatherDatabase
 import com.home.weatherapp.data.remote.WeatherApi
 import dagger.Module
@@ -36,5 +38,9 @@ object AppModule {
             .build()
     }
 
-
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient{
+        return LocationServices.getFusedLocationProviderClient(app)
+    }
 }

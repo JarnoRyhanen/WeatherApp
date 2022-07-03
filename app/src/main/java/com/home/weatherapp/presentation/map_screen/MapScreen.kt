@@ -23,9 +23,12 @@ private const val TAG = "MapScreen"
 fun MapScreen(
     viewModel: MapsScreenViewModel = hiltViewModel()
 ) {
+    viewModel.getLocation()
     val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
+
+    val latLong: LatLng by viewModel.latLong.collectAsState()
 
     val scaffoldState = rememberScaffoldState()
     val uiSettings = remember {
@@ -70,7 +73,7 @@ fun MapScreen(
                 },
                 cameraPositionState = CameraPositionState(
                     CameraPosition(
-                        LatLng(60.1712, 24.9327), 12f, 0f, 0f
+                        latLong, 15f, 0f, 0f
                     )
                 )
             )
@@ -85,7 +88,6 @@ fun PopUpAlertDialog(
     onConfirm: () -> Unit,
     location: String
 ) {
-
     if (show) {
         AlertDialog(
             onDismissRequest = onDismiss,

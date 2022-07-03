@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.home.weatherapp.domain.location.LocationTracker
 import com.home.weatherapp.domain.repository.WeatherRepository
 import com.home.weatherapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,10 +31,8 @@ class WeatherScreenViewModel @Inject constructor(
     }
 
     init {
-        viewModelScope.launch {
             Log.d(TAG, "i am in init: ")
             getWeatherData(fetchFromRemote = false)
-        }
     }
 
     private fun getWeatherData(
@@ -41,6 +40,11 @@ class WeatherScreenViewModel @Inject constructor(
         fetchFromRemote: Boolean = false
     ) {
         viewModelScope.launch {
+            weatherScreenState = weatherScreenState.copy(
+                isLoading = true,
+                isRefreshing = false,
+            )
+
             repository
                 .getWeatherData(fetchFromRemote, query)
                 .collect { result ->
