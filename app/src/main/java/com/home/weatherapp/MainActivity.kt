@@ -3,7 +3,6 @@ package com.home.weatherapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -25,19 +24,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.home.weatherapp.presentation.map_screen.MapScreen
 import com.home.weatherapp.presentation.weather_screen.WeatherScreen
-import com.home.weatherapp.presentation.weather_screen.WeatherScreenViewModel
 import com.home.weatherapp.ui.theme.AquaBlue
 import com.home.weatherapp.ui.theme.ButtonBlue
 import com.home.weatherapp.ui.theme.DarkBlue
 import com.home.weatherapp.ui.theme.WeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    val viewModel by viewModels<WeatherScreenViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

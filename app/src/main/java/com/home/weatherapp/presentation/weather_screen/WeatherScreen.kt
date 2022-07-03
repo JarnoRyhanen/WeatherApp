@@ -43,9 +43,9 @@ fun WeatherScreen(
     viewModel: WeatherScreenViewModel = hiltViewModel()
 ) {
 
-    if (!viewModel.state.isLoading) {
+    if (!viewModel.weatherScreenState.isLoading && viewModel.weatherScreenState.weatherData.isNotEmpty()) {
         val state = remember {
-            viewModel.state
+            viewModel.weatherScreenState
         }
         Box(
             modifier = Modifier
@@ -62,11 +62,15 @@ fun WeatherScreen(
                 NextDaysInfo(state)
             }
         }
-    } else {
+    } else if (viewModel.weatherScreenState.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text("An error has occurred")
         }
     }
 }

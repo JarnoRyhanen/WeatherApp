@@ -9,11 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.home.weatherapp.domain.repository.WeatherRepository
 import com.home.weatherapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 private const val TAG = "WeatherScreenViewModel"
 
@@ -22,50 +19,45 @@ class WeatherScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
 ) : ViewModel() {
 
-    var state by mutableStateOf(WeatherScreenState())
-
-    private var searchJob: Job? = null
+    var weatherScreenState by mutableStateOf(WeatherScreenState())
 
     fun onEvent(event: WeatherScreenEvent) {
         when (event) {
             is WeatherScreenEvent.Refresh -> {
                 getWeatherData(fetchFromRemote = true)
             }
-
-            is WeatherScreenEvent.OnSearchQueryChange -> {
-                state = state.copy(searchQuery = event.query)
-                searchJob?.cancel()
-                searchJob = viewModelScope.launch {
-                    delay(100L)
-                    getWeatherData()
-                }
-            }
         }
     }
 
     init {
-        getWeatherData(fetchFromRemote = true)
+        viewModelScope.launch {
+            Log.d(TAG, "i am in init: ")
+            getWeatherData(fetchFromRemote = false)
+        }
     }
 
     private fun getWeatherData(
-        query: String = state.searchQuery.lowercase(),
+        query: String = if(weatherScreenState.weatherData.isNotEmpty()) weatherScreenState.weatherData.first().address else "",
         fetchFromRemote: Boolean = false
     ) {
         viewModelScope.launch {
             repository
                 .getWeatherData(fetchFromRemote, query)
                 .collect { result ->
-                    when (result){
+                    when (result) {
                         is Resource.Success -> {
                             result.data?.let {
-                                state = state.copy(
+                                weatherScreenState = weatherScreenState.copy(
                                     weatherData = it
                                 )
                             }
                         }
-                        is Resource.Error -> Unit
+                        is Resource.Error -> {
+                            Log.d(TAG, "getWeatherData: $result")
+                        }
                         is Resource.Loading -> {
-                            state = state.copy(isLoading = result.isLoading)
+                            weatherScreenState =
+                                weatherScreenState.copy(isLoading = result.isLoading)
                         }
                     }
                 }
