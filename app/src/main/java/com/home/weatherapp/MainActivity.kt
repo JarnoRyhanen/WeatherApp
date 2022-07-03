@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,8 +61,9 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }, content = {
-                            Navigation(navHostController = navController)
-                            it
+                            Box(modifier = Modifier.padding(it)) {
+                                Navigation(navHostController = navController)
+                            }
                         }
                     )
             }

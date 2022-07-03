@@ -51,7 +51,6 @@ fun WeatherScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(DarkBlue)
-                .padding(bottom = 75.dp)
         ) {
             Column {
                 BasicInformationSection(state)

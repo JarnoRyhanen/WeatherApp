@@ -1,21 +1,21 @@
 package com.home.weatherapp.presentation.map_screen
 
 import android.location.Geocoder
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
+import com.home.weatherapp.ui.theme.DeepBlue
+import com.home.weatherapp.ui.theme.TextWhite
+import kotlinx.coroutines.launch
 
 private const val TAG = "MapScreen"
 
@@ -25,11 +25,21 @@ fun MapScreen(
 ) {
     val context = LocalContext.current
 
+    val scope = rememberCoroutineScope()
+
     val scaffoldState = rememberScaffoldState()
     val uiSettings = remember {
         MapUiSettings(zoomControlsEnabled = true)
     }
+    val showDialogState: Boolean by viewModel.showDialog.collectAsState()
+    val location: String by viewModel.dialogLocation.collectAsState()
 
+    PopUpAlertDialog(
+        show = showDialogState,
+        onDismiss = viewModel::onDialogDismiss,
+        onConfirm = viewModel::onDialogConfirm,
+        location = location
+    )
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -37,8 +47,7 @@ fun MapScreen(
             it
             GoogleMap(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .padding(bottom = 75.dp),
+                    .wrapContentSize(),
                 properties = viewModel.state.properties,
                 uiSettings = uiSettings,
                 onMapLongClick = { coordinates ->
@@ -50,9 +59,14 @@ fun MapScreen(
                     ).first().locality
 
                     if (location != null) {
-                        viewModel.onEvent(MapEvent.OnMapLongClick(location))
+                        viewModel.onOpenDialogClicked(location)
+                        return@GoogleMap
                     }
-
+                    scope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            "Unable to get weather for this location, try somewhere else."
+                        )
+                    }
                 },
                 cameraPositionState = CameraPositionState(
                     CameraPosition(
@@ -62,4 +76,38 @@ fun MapScreen(
             )
         }
     )
+}
+
+@Composable
+fun PopUpAlertDialog(
+    show: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    location: String
+) {
+
+    if (show) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(text = "Confirm?", color = TextWhite) },
+            text = {
+                Text(
+                    text = "Do you want to get weather for $location",
+                    color = TextWhite
+                )
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(text = "Dismiss", color = TextWhite)
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = onConfirm) {
+                    Text(text = "Confirm", color = TextWhite)
+                }
+            },
+            backgroundColor = DeepBlue,
+            contentColor = Color.White
+        )
+    }
 }

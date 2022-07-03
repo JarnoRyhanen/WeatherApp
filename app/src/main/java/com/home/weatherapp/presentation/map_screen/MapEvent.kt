@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 
 sealed class MapEvent {
 
-    data class OnMapLongClick(val location: String): MapEvent()
-    object OnInfoWindowLongClick: MapEvent()
+    data class OnDialogConfirm(val location: String): MapEvent()
+    object OnMapLongClick: MapEvent()
 
 }
