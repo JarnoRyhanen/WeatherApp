@@ -1,11 +1,13 @@
 package com.home.weatherapp.presentation.weather_screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -27,10 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.home.weatherapp.R
-import com.home.weatherapp.ui.theme.DarkBlue
-import com.home.weatherapp.ui.theme.IconColor
-import com.home.weatherapp.ui.theme.LighterBlue
-import com.home.weatherapp.ui.theme.SpecificTextColor
+import com.home.weatherapp.appsettings.AppSettings
+import com.home.weatherapp.appsettings.FirstTime
+import com.home.weatherapp.ui.theme.*
 import com.home.weatherapp.util.formatters.formatDateToDay
 import com.home.weatherapp.util.formatters.formatEpochTimesToTime
 import com.home.weatherapp.util.getIcon
@@ -40,12 +41,18 @@ private const val TAG = "WeatherScreen"
 
 @Composable
 fun WeatherScreen(
-    viewModel: WeatherScreenViewModel = hiltViewModel()
+    viewModel: WeatherScreenViewModel = hiltViewModel(),
+    appSettings: AppSettings,
+    callBack: () -> Unit
 ) {
+    Log.d(TAG, "WeatherScreen: ${appSettings.isFirstTime}")
 
     if (!viewModel.weatherScreenState.isLoading && viewModel.weatherScreenState.weatherData.isNotEmpty()) {
         val state = remember {
             viewModel.weatherScreenState
+        }
+        if(appSettings.isFirstTime == FirstTime.TRUE){
+            callBack()
         }
         Box(
             modifier = Modifier
@@ -67,9 +74,33 @@ fun WeatherScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-    } else {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Text("An error has occurred")
+    } else if (appSettings.isFirstTime == FirstTime.TRUE) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier,
+                Arrangement.SpaceEvenly,
+                Alignment.CenterHorizontally
+            ) {
+                Text(
+                    "Please enable Gsp location in order to get weather for your location, or select a place on the map of your choice",
+                    modifier = Modifier.padding(16.dp),
+                    fontSize = 20.sp
+                )
+                Button(
+                    onClick = {
+                        viewModel.onEvent(WeatherScreenEvent.Refresh)
+                        callBack()
+                    },
+                    modifier = Modifier.background(
+                        DeepBlue
+                    )
+                ) {
+                    Text(text = "Refresh")
+                }
+            }
         }
     }
 }
@@ -212,7 +243,6 @@ fun SunriseSunset(state: WeatherScreenState) {
     Spacer(modifier = Modifier.height(16.dp))
 }
 
-//        SunriseSunsetChart(state)
 @Composable
 fun TodayText() {
     Text(
@@ -298,17 +328,16 @@ fun NextDaysInfo(
                 )
                 Spacer(modifier = Modifier.width(3.dp))
                 Text(text = buildAnnotatedString {
-                    append(text = "${day.temp}° ")
+                    append(text = "${day.tempmax}° ")
                     withStyle(
                         style = SpanStyle(
                             color = SpecificTextColor
                         )
                     ) {
-                        append("${day.feelslike}°")
+                        append("${day.tempmin}°")
                     }
                 })
             }
         }
     }
 }
-

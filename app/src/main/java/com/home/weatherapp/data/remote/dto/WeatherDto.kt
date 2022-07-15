@@ -33,6 +33,8 @@ data class DaysDto(
     val temp: Double,
     val feelslike: Double,
     val windspeed: Double,
+    val tempmax: Double,
+    val tempmin: Double,
     val conditions: String,
     val icon: String,
     val hours: List<HoursDto>

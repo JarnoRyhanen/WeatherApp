@@ -113,6 +113,8 @@ fun DaysDto.toDayEntity(location: String) : DaysEntity {
         windspeed = windspeed,
         conditions = conditions,
         icon = icon,
+        tempmax = tempmax,
+        tempmin = tempmin,
         locationDay = location,
         hours = hours.map { it.toHourEntity(location) }
     )
@@ -127,6 +129,8 @@ fun DaysEntity.toDays(location: String) : Days {
         windspeed = windspeed,
         conditions = conditions,
         icon = icon,
+        tempmax = tempmax,
+        tempmin = tempmin,
         locationDay = location,
         hour = hours.map { it.toHour(location) }
     )
@@ -141,6 +145,8 @@ fun Days.toDayEntity(location: String) : DaysEntity {
         windspeed = windspeed,
         conditions = conditions,
         icon = icon,
+        tempmax = tempmax,
+        tempmin = tempmin,
         locationDay = location,
         hours = hour.map { it.toHourEntity(location) }
     )

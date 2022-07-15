@@ -14,7 +14,8 @@ data class WeatherDataEntity(
     val timezone: String,
     val timezoneOffset: Double,
     val days: List<DaysEntity>,
-    val currentConditions: CurrentConditionsEntity
+    val currentConditions: CurrentConditionsEntity,
+    val updatedAt: Long = System.currentTimeMillis()
 )
 
 data class CurrentConditionsEntity(
@@ -37,6 +38,8 @@ data class DaysEntity(
     val datetimeEpoch: Long,
     val temp: Double,
     val feelslike: Double,
+    val tempmax: Double,
+    val tempmin: Double,
     val windspeed: Double,
     val conditions: String,
     val icon: String,

@@ -6,9 +6,25 @@
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1445" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1445" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_clear_night.xml" value="0.1775" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_hail.xml" value="0.199" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_partly_cloudy_day.xml" value="0.1775" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_partly_cloudy_night.xml" value="0.1775" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_rain.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_rain_snow.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_rain_snow_showers_day.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_rain_snow_showers_night.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_showers_day.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_showers_night.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_sleet.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_snow.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_snow_showers_day.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_snow_showers_night.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_thunder.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_thunder_rain.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_thunder_showers_day.xml" value="0.199" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_thunder_showers_night.xml" value="0.199" />
         <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_water_drop.xml" value="0.171" />
+        <entry key="..\:/Users/s1800885/Documents/WeatherApp/app/src/main/res/drawable/ic_wind.xml" value="0.199" />
       </map>
     </option>
   </component>
